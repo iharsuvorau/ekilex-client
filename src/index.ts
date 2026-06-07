@@ -1,4 +1,4 @@
-import { env } from "node:process";
+import { env, exit } from "node:process";
 import { parseArgs } from "node:util";
 
 const BASE = "https://ekilex.ee/api";
@@ -84,7 +84,15 @@ function extractVerbThreeForms(forms: ParadigmForm[]): string {
 
 async function getThreeForms(word: string, verb: boolean): Promise<string> {
   const wordResponse = await getWord(word);
+  if (wordResponse.words.length === 0) {
+    console.error("Word not found.");
+    process.exit(1);
+  }
   const paradigmsResponse = await getParadigm(wordResponse.words[0].wordId);
+  if (paradigmsResponse.length === 0) {
+    console.error("Cannot get word details.");
+    process.exit(1);
+  }
   const forms = paradigmsResponse[0].paradigmForms as ParadigmForm[];
   if (verb) return extractVerbThreeForms(forms);
   return extractNounThreeForms(forms);
