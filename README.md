@@ -7,6 +7,9 @@ Ekilex API overview: https://github.com/keeleinstituut/ekilex/wiki/Ekilex-API
 ## Usage
 
 ```bash
+# API key from https://ekilex.ee
+export EKILEX_API_KEY=...
+
 # for a noun
 node src/index.ts -w banaan
 
